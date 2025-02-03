@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import java.util.Objects;
 
+import dev.frozenmilk.wavedash.Localizer;
+
 @Config
 public final class PinpointLocalizer implements Localizer {
     public static class Params {
@@ -57,7 +59,8 @@ public final class PinpointLocalizer implements Localizer {
             Vector2d worldVelocity = new Vector2d(driver.getVelX() / 25.4, driver.getVelY() / 25.4);
             Vector2d robotVelocity = Rotation2d.fromDouble(-driver.getHeading()).times(worldVelocity);
             return new PoseVelocity2d(robotVelocity, driver.getHeadingVelocity());
+        } else {
+            return new PoseVelocity2d(new Vector2d(0, 0), 0);
         }
-        return new PoseVelocity2d(new Vector2d(0, 0), 0);
     }
 }
