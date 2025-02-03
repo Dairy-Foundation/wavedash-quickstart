@@ -16,13 +16,11 @@ import com.acmerobotics.roadrunner.Pose2dDual;
 import com.acmerobotics.roadrunner.PoseVelocity2d;
 import com.acmerobotics.roadrunner.PoseVelocity2dDual;
 import com.acmerobotics.roadrunner.ProfileAccelConstraint;
-import com.acmerobotics.roadrunner.ProfileParams;
 import com.acmerobotics.roadrunner.Rotation2d;
 import com.acmerobotics.roadrunner.Time;
 import com.acmerobotics.roadrunner.TimeTrajectory;
 import com.acmerobotics.roadrunner.TimeTurn;
 import com.acmerobotics.roadrunner.Trajectory;
-import com.acmerobotics.roadrunner.TrajectoryBuilderParams;
 import com.acmerobotics.roadrunner.TurnConstraints;
 import com.acmerobotics.roadrunner.Twist2d;
 import com.acmerobotics.roadrunner.Twist2dDual;
@@ -50,6 +48,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 import java.util.Arrays;
 import java.util.LinkedList;
 
+import dev.frozenmilk.wavedash.Commands;
 import dev.frozenmilk.wavedash.Drive;
 import dev.frozenmilk.wavedash.Localizer;
 import dev.frozenmilk.wavedash.TrajectoryCommandBuilder;
@@ -438,18 +437,14 @@ public final class MecanumDrive implements Drive {
     @Override
     public TrajectoryCommandBuilder commandBuilder(@NonNull Pose2d beginPose) {
         return new TrajectoryCommandBuilder(
-                this::followTrajectoryCommand,
                 this::turnCommand,
+                this::followTrajectoryCommand,
+                Commands.DEFAULT_TRAJECTORY_PARAMS,
                 beginPose,
-                new TrajectoryBuilderParams(
-                        1e-6,
-                        new ProfileParams(
-                                0.25, 0.1, 1e-2
-                        )
-                ),
+                0.0,
+                defaultTurnConstraints,
                 defaultVelConstraint,
-                defaultAccelConstraint,
-                defaultTurnConstraints
+                defaultAccelConstraint
         );
     }
 }
